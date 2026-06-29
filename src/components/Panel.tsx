@@ -6,58 +6,34 @@ import { getStyles } from './styles';
 
 interface Props extends PanelProps<PanelOptions> {}
 
-const ILITablePanel: React.FC<Props> = ({ options, data }) => {
-  const fontSize = options.fontSize || defaultOptions.fontSize;
+export const ILITablePanel: React.FC<Props> = ({ options, data, width, height }) => {
+  const fontSize = options.fontSize ?? defaultOptions.fontSize;
   const showHeader = options.showHeader ?? defaultOptions.showHeader;
   const wordWrap = options.wordWrap ?? defaultOptions.wordWrap;
 
   const styles = getStyles();
-  const tableStyle = styles.table(fontSize);
+  const tableClass = styles.table(fontSize, wordWrap);
 
-  const rows = useMemo(() => {
-    if (!data || !data.tables || data.tables.length === 0) {
-      return [];
+  // Grafana liefert Query-Ergebnisse als DataFrames in data.series,
+  // NICHT als data.tables (das Feld existiert in PanelData nicht).
+  const frame = useMemo(() => {
+    if (!data || !data.series || data.series.length === 0) {
+      return undefined;
     }
-
-    const table = data.tables[0];
-    if (!table || !table.columns || table.columns.length === 0) {
-      return [];
-    }
-
-    return table.rows.map((row, idx) => {
-      const obj: Record<string, any> = {};
-      table.columns.forEach((col, i) => {
-        obj[col.label || `col${i}`] = row[i];
-      });
-      return { id: idx, ...obj };
-    });
+    return data.series[0];
   }, [data]);
 
-  const columns = useMemo(() => {
-    if (!data || !data.tables || data.tables.length === 0) {
-      return [];
-    }
-
-    const table = data.tables[0];
-    return table.columns.map((col) => ({
-      Header: col.label || 'Unknown',
-      accessor: col.label || 'col',
-      Cell: ({ cell }: { cell: { value: any } }) => {
-        const content = String(cell.value ?? '');
-        return wordWrap ? <div style={{ whiteSpace: 'pre-wrap' }}>{content}</div> : content;
-      },
-    }));
-  }, [data, wordWrap]);
+  if (!frame || frame.length === 0) {
+    return <div className={styles.root}>Keine Daten</div>;
+  }
 
   return (
-    <div className={styles.root}>
-      <Table
-        className={tableStyle}
-        columns={columns}
-        data={rows}
-        showHeader={showHeader}
-        variant="compact"
-      />
+    <div className={`${styles.root} ${tableClass}`}>
+      {/* HINWEIS: Prüfe in deiner Grafana-Version (>=11.2), ob die Table-
+          Komponente "noHeader" statt "showHeader" erwartet. Schau dazu in
+          node_modules/@grafana/ui/dist/types/components/Table/... nach,
+          oder probiere beide Varianten aus. */}
+      <Table data={frame} width={width} height={height} noHeader={!showHeader} />
     </div>
   );
 };
