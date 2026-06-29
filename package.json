@@ -1,0 +1,49 @@
+{
+  "name": "ili-table-panel",
+  "version": "0.1.0",
+  "description": "ILI Table Panel — React-based, configurable font size for table content.",
+  "keywords": [
+    "grafana",
+    "panel",
+    "table"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "ILI Team"
+  },
+  "scripts": {
+    "build": "webpack --config config/webpack.prod.js",
+    "dev": "webpack --watch --config config/webpack.dev.js",
+    "lint": "eslint src --ext .ts,.tsx && prettier --check src",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix && prettier --write src",
+    "test": "jest --passWithNoTests",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@grafana/data": "^11.2.0",
+    "@grafana/ui": "^11.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@grafana/create-plugin": "^7.0.0",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.3.0",
+    "tslib": "^2.6.0",
+    "typescript": "^5.4.0",
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.0",
+    "@grafana/plugin-notice": "^0.3.0"
+  },
+  "peerDependencies": {
+    "grafana": ">=11.2.0"
+  }
+}
