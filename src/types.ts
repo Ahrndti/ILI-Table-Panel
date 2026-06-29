@@ -1,11 +1,11 @@
 export interface PanelOptions {
-  fontSize: string;
+  fontSize: number;
   showHeader: boolean;
   wordWrap: boolean;
 }
 
 export const defaultOptions: PanelOptions = {
-  fontSize: '12px',
+  fontSize: 12,
   showHeader: true,
   wordWrap: false,
 };
