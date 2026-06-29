@@ -1,14 +1,28 @@
-import { PanelProps } from '@grafana/data';
-import ILITablePanel from './components/Panel';
-import { PanelOptions } from './types';
-import { PanelEditor } from './components/PanelEditor';
+import { PanelPlugin } from '@grafana/data';
+import { ILITablePanel } from './components/Panel';
+import { PanelOptions, defaultOptions } from './types';
 
-export { ILITablePanel, PanelEditor };
-export { PanelOptions };
-export const meta = {
-  id: 'ili-table-panel',
-  name: 'ILI Table',
-  type: 'panel',
-  module: 'dist/module.js',
-  main: 'dist/module.js',
-};
+export const plugin = new PanelPlugin<PanelOptions>(ILITablePanel).setPanelOptions((builder) => {
+  return builder
+    .addNumberInput({
+      path: 'fontSize',
+      name: 'Schriftgröße (px)',
+      description: 'Schriftgröße des Tabelleninhalts in Pixel',
+      defaultValue: defaultOptions.fontSize,
+      settings: {
+        min: 8,
+        max: 48,
+        step: 1,
+      },
+    })
+    .addBooleanSwitch({
+      path: 'showHeader',
+      name: 'Header anzeigen',
+      defaultValue: defaultOptions.showHeader,
+    })
+    .addBooleanSwitch({
+      path: 'wordWrap',
+      name: 'Zeilenumbruch',
+      defaultValue: defaultOptions.wordWrap,
+    });
+});
