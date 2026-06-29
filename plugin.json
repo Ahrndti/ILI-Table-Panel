@@ -1,0 +1,35 @@
+{
+  "id": "ili-table-panel",
+  "name": "ILI Table",
+  "type": "panel",
+  "module": "dist/module.js",
+  "main": "dist/module.js",
+  "version": "0.1.0",
+  "description": "A minimal, React-based Grafana table panel with configurable font size for table content.",
+  "keywords": ["table", "monitoring", "ili", "kritis"],
+  "author": {
+    "name": "ILI Team",
+    "url": "https://your-org.example"
+  },
+  "license": "MIT",
+  "preload": false,
+  "skipDataQuery": false,
+  "supportsDataQuery": true,
+  "supportsAnnotations": false,
+  "enabled": true,
+  "signature": "",
+  "info": {
+    "description": "A minimal, React-based Grafana table panel with configurable font size for table content.",
+    "author": {
+      "name": "ILI Team",
+      "url": "https://your-org.example"
+    },
+    "keywords": ["table", "monitoring", "ili", "kritis"],
+    "version": "0.1.0",
+    "updated": "2026-06-23"
+  },
+  "dependencies": {
+    "grafana": ">=11.2.0"
+  },
+  "commit": "1.0.0"
+}
