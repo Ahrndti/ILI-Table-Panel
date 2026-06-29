@@ -1,0 +1,9 @@
+{
+  "extends": "./node_modules/@grafana/create-plugin/config/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": "./src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
