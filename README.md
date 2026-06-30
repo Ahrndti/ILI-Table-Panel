@@ -1,14 +1,29 @@
 # ILI Table Panel
 
-A minimal, React-based Grafana panel for displaying tabular data with **configurable font size** (including table content), designed for **ILI/KRITIS** environments.
+A minimal, React-based Grafana panel for displaying tabular data with **configurable font size**, **row height/padding** and **zebra striping**, designed for **ILI/KRITIS** environments.
 
 ## Features
 
 - ✅ Grafana v11+ & v12+ compatible (React-only)
-- ✅ Numeric `fontSize` option for table body (in px)
+- ✅ Separate `fontSize` (content) and `headerFontSize` (column headers) options, in px
+- ✅ Adjustable row height (`rowHeight`) and horizontal cell padding (`cellPaddingX`), in px
+- ✅ Toggleable zebra striping with a custom shading color (`zebraStripes` / `zebraColor`)
 - ✅ Header toggle & word-wrap
 - ✅ Minimal third-party deps (`@grafana/*`, `@emotion/css`)
 - ✅ Audit-ready: fully self-hosted, no network calls
+
+### Hinweis zur Zeilenhöhe
+
+`@grafana/ui`'s `<Table>` virtualisiert die Body-Zeilen intern (über
+`react-window`) und kennt dafür nur drei feste Stufen (`sm`/`md`/`lg`,
+ca. 32/42/48 px), keine freie Pixelangabe. Dieses Panel rundet den
+eingestellten `rowHeight`-Wert intern auf die nächstliegende Stufe und
+übergibt sie als `cellHeight`-Prop an `<Table>`, während die sichtbare
+Höhe per CSS exakt auf den gewünschten Pixelwert gesetzt wird. Für
+typische ILI-Audit-Tabellen (wenige bis mittelviele, meist nicht
+endlos scrollende Zeilen) ist das visuell nicht spürbar; bei sehr
+langen, stark vom Standard abweichenden Tabellen können beim Scrollen
+minimale optische Lücken auftreten.
 
 ## Installation (development build)
 
@@ -32,10 +47,11 @@ rm -rf src
 cp -r /path/to/ILI-Table-Panel-main/src ./src
 cp /path/to/ILI-Table-Panel-main/plugin.json ./src/plugin.json
 
-# 4. Install the extra dependency used by the dynamic styles
-npm install @emotion/css
+# 4. Install the extra dependencies used by the dynamic styles and the
+#    cellHeight mapping (TableCellHeight enum)
+npm install @emotion/css @grafana/schema
 # or with yarn:
-yarn add @emotion/css
+yarn add @emotion/css @grafana/schema
 
 # 5. Install dependencies and build in watch mode
 npm install
